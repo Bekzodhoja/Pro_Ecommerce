@@ -36,3 +36,4 @@ Route::get('/redirect', [HomeController::class,'redirect']);
 // admin
 Route::get('/view_category', [AdminCantroller::class,'view_category']);
 Route::post('add_category', [AdminCantroller::class, 'add_category']);
+Route::get('/delete_category/{id}', [AdminCantroller::class, 'delete_category']);
