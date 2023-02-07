@@ -50,6 +50,14 @@
         <div class="main-panel">
             <div class="content-wrapper">
 
+                @if (session()->has('message'))
+                <div class="alert alert-success">
+                    <button type="button" class="btn-close" data-dismiss="alert" >X</button>
+                    {{ session()->get('message') }}
+                </div>
+                    
+                @endif
+
                 <h2 class="font_size">All Products</h2>
 
                 <table class="center">
@@ -80,11 +88,11 @@
                         </td>
 
                         <td>
-                            <a class="btn btn-danger" href="">Delete</a>
+                            <a onclick="return confirm('Are sure to delete the is product') " class="btn btn-danger" href="{{ url('delete_product',$product->id) }}">Delete</a>
                         </td>
                             
                         <td>
-                            <a class="btn btn-success" href="">Edit</a>
+                            <a class="btn btn-success" href="{{ url('update_product',$product->id) }}">Edit</a>
                         </td>
                     </tr>
                     @endforeach

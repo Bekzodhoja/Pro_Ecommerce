@@ -40,3 +40,6 @@ Route::get('/delete_category/{id}', [AdminCantroller::class, 'delete_category'])
 Route::get('/view_product', [AdminCantroller::class, 'view_product']);
 Route::post('/add_product', [AdminCantroller::class, 'add_product']);
 Route::get('/show_product', [AdminCantroller::class, 'show_product']);
+Route::get('/delete_product/{id}', [AdminCantroller::class, 'delete_product']);
+Route::get('/update_product/{id}', [AdminCantroller::class, 'update_product']);
+Route::post('/update_product_confirm/{id}', [AdminCantroller::class, 'update_product_confirm']);
