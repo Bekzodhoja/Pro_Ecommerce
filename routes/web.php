@@ -29,7 +29,7 @@ Route::middleware([
 
 // home
 Route::get('/redirect', [HomeController::class,'redirect']);
-
+Route::get('/product_details/{id}', [HomeController::class, 'product_details']);
 
 
 
