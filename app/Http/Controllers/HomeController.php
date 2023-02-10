@@ -34,4 +34,10 @@ class HomeController extends Controller
         return view('home.product_details', compact('product'));
    }
 
+
+   public function add_cart($id)
+   {
+    $product=Product::find($id);
+   }
+
 }
