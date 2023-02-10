@@ -62,7 +62,7 @@
                   <h6>Product Category : {{ $product->category }}</h6>
                   <h6>Product Details : {{ $product->description }}</h6>
                   <h6>Available Quantity : {{ $product->quantity }}</h6>
-                  <a href="" class="btn btn-primary">Add to Cart</a>
+                  <a href="#" class="btn btn-primary">Add to Cart</a>
 
                </div>
             </div>
