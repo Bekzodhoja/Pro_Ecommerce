@@ -33,12 +33,13 @@ Route::get('/product_details/{id}', [HomeController::class, 'product_details']);
 Route::post('/add_cart/{id}',[HomeController::class,'add_cart']);
 Route::get('/show_cart',[HomeController::class,'show_cart']);
 Route::get('/remove_cart/{id}',[HomeController::class,'remove_cart']);
+Route::get('/cash_order',[HomeController::class,'cash_order']);
 
 
 
 // admin
 Route::get('/view_category', [AdminCantroller::class,'view_category']);
-Route::post('add_category', [AdminCantroller::class, 'add_category']);
+Route::post('/add_category', [AdminCantroller::class, 'add_category']);
 Route::get('/delete_category/{id}', [AdminCantroller::class, 'delete_category']);
 Route::get('/view_product', [AdminCantroller::class, 'view_product']);
 Route::post('/add_product', [AdminCantroller::class, 'add_product']);
