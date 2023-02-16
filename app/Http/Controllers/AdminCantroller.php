@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -101,9 +102,13 @@ class AdminCantroller extends Controller
         }
         $product->save();
         return redirect()->back()->with('message', 'Product Added Seccessfully');
-        
 
+    }
 
+    public function order()
+    {
+        $order=Order::all();
+        return view('admin.order', compact('order'));
     }
 
 }
