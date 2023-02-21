@@ -10,16 +10,16 @@ use Illuminate\Notifications\Notification;
 class MyFirstNotification extends Notification
 {
     use Queueable;
-    private $detalis;
+    private $details;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($detalis)
+    public function __construct($details)
     {
-        $this->detalis=$detalis;
+        $this->details=$details;
     }
 
     /**
@@ -42,11 +42,11 @@ class MyFirstNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->greeting($this->detalis['greeting'])
-                    ->line($this->detalis['firstline'])
-                    ->line($this->detalis['body'])
-                    ->action($this->detalis['button'],$this->detalis['url'])
-                    ->line($this->detalis['lastline']);
+                    ->greeting($this->details['greeting'])
+                    ->line($this->details['firstline'])
+                    ->line($this->details['body'])
+                    ->action($this->details['button'],$this->details['url'])
+                    ->line($this->details['lastline']);
     }
 
     /**

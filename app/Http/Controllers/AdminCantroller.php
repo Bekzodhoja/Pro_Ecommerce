@@ -7,8 +7,8 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Notifications\MyFirstNotification;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification;
 use PDF;
+use Notification;
 
 class AdminCantroller extends Controller
 {
@@ -154,6 +154,7 @@ class AdminCantroller extends Controller
         ];
 
         Notification::send($order,new MyFirstNotification($details));
+        return redirect()->back();
     }
 
 
