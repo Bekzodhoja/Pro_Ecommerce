@@ -132,6 +132,10 @@ class AdminCantroller extends Controller
     }
 
 
+    public function send_email($id)
+    {
+        return view('admin.email_info');
+    }
 
 
 }
