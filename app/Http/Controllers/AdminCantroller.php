@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Notifications\MyFirstNotification;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use PDF;
 
 class AdminCantroller extends Controller
@@ -134,7 +136,24 @@ class AdminCantroller extends Controller
 
     public function send_email($id)
     {
-        return view('admin.email_info');
+        $order=Order::find($id);
+
+        return view('admin.email_info',compact('order'));
+    }
+
+    public function send_user_email(Request $request,$id)
+    {
+        $order=Order::find($id);
+        $details=[
+             'greeting'=>$request->greeting,
+             'firstline'=>$request->firstline,
+             'body'=>$request->body,
+             'button'=>$request->button,
+             'url'=>$request->url,
+             'lastline'=>$request->lastline,
+        ];
+
+        Notification::send($order,new MyFirstNotification($details));
     }
 
 

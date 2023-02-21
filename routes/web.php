@@ -54,3 +54,4 @@ Route::get('/order',[AdminCantroller::class,'order']);
 Route::get('/delivered/{id}',[AdminCantroller::class,'delivered']);
 Route::get('/print_pdf/{id}',[AdminCantroller::class,'print_pdf']);
 Route::get('/send_email/{id}',[AdminCantroller::class,'send_email']);
+Route::post('/send_user_email/{id}',[AdminCantroller::class,'send_user_email']);
