@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Order;
-use App\Models\Product;
-use App\Notifications\MyFirstNotification;
-use Illuminate\Http\Request;
 use PDF;
 use Notification;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Notifications\MyFirstNotification;
 
 class AdminCantroller extends Controller
 {
