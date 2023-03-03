@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PharIo\Manifest\Author;
 
 class HomeController extends Controller
 {
@@ -197,4 +198,25 @@ public function stripePost(Request $request,$totalprice)
         return back();
     }
 
+   public function show_order()
+   {
+    if(Auth::id()){
+        $user= Auth::user();
+        $userid=$user->id;
+        $order=Order::where('user_id','=',$userid)->get();
+        return view('home.order',compact('order'));
+    }
+    else
+    {
+        return redirect('login');
+    }
+   } 
+
+   public function cansel_order($id)
+   {
+    $order=Order::find($id);
+    $order->delivery_status='You cannseled the order';
+    $order->save();
+    return redirect()->back();
+   }
 }
