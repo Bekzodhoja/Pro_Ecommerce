@@ -20,8 +20,10 @@ class HomeController extends Controller
     public function index()
     {
         $product = Product::paginate(10);
-        $comment = Comment::all();
-        return view('home.userpage',compact('product','comment'));
+        $comment = Comment::orderby('id','desc')->get();
+        $reply= Reply::all();
+
+        return view('home.userpage',compact('product','comment','reply'));
     }
     public function redirect()
     {
@@ -46,8 +48,9 @@ class HomeController extends Controller
         else
         {
             $product = Product::paginate(10);
-            $comment = Comment::all();
-            return view('home.userpage', compact('product','comment'));
+            $comment = Comment::orderby('id','desc')->get();
+            $reply= Reply::all();
+            return view('home.userpage', compact('product','comment','reply'));
         }
     }
 
