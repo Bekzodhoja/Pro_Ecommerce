@@ -40,6 +40,7 @@ Route::post('/stripe/{totalprice}',[HomeController::class,'stripePost'])->name('
 Route::get('/show_order',[HomeController::class,'show_order']);
 Route::get('/cansel_order/{id}',[HomeController::class,'cansel_order']);
 Route::post('/add_comment',[HomeController::class,'add_comment']);
+Route::post('/add_reply',[HomeController::class,'add_reply']);
 
 
 

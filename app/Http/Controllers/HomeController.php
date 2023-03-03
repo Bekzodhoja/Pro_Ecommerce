@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PharIo\Manifest\Author;
@@ -45,7 +46,8 @@ class HomeController extends Controller
         else
         {
             $product = Product::paginate(10);
-            return view('home.userpage', compact('product'));
+            $comment = Comment::all();
+            return view('home.userpage', compact('product','comment'));
         }
     }
 
@@ -236,5 +238,22 @@ public function stripePost(Request $request,$totalprice)
     else{
         return redirect('login');
     }
+   }
+
+   public function add_reply(Request $request)
+   {
+if(Auth::id())
+{
+    $reply=new Reply;
+    $reply->name=Auth::user()->name;
+    $reply->user_id=Auth::user()->id;
+    $reply->comment_id=$request->commentId;
+    $reply->reply=$request->reply;
+    $reply->save();
+    return redirect()->back();  
+}
+else{
+    return redirect('login');
+}
    }
 }
