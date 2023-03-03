@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Stripe;
 use Session;
 use App\Models\Cart;
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
@@ -18,7 +19,8 @@ class HomeController extends Controller
     public function index()
     {
         $product = Product::paginate(10);
-        return view('home.userpage',compact('product'));
+        $comment = Comment::all();
+        return view('home.userpage',compact('product','comment'));
     }
     public function redirect()
     {
@@ -218,5 +220,21 @@ public function stripePost(Request $request,$totalprice)
     $order->delivery_status='You cannseled the order';
     $order->save();
     return redirect()->back();
+   }
+
+   public function add_comment(Request $request)
+   {
+    if (Auth::id()) 
+    {
+      $comment = new Comment;
+      $comment->name=Auth::user()->name;
+      $comment->user_id=Auth::user()->id;
+      $comment->comment=$request->comment;
+      $comment->save();
+      return redirect()->back();
+    }
+    else{
+        return redirect('login');
+    }
    }
 }

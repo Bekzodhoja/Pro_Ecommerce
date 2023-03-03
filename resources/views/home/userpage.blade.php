@@ -42,6 +42,47 @@
       @include('home.product')
       <!-- end product section -->
 
+      {{-- Comment and reply system starts here --}}
+
+      <div style="text-align: center; padding-bottom:30px;">
+         <h1 style="font-size: 30px; text-align:center;padding-top:20px; padding-bottom:20px;">Comments</h1>
+         
+         <form action="{{url('add_comment')}}" method="POST">
+
+            @csrf
+            <textarea style="height: 150px; width:600px;" placeholder="Comment somthing here" name="comment"></textarea>
+            <br>
+            <input type="submit" class="btn btn-primary" value="Comment">
+         </form>
+      </div>
+
+      <div style="padding-left: 20%;">
+         <h1 style="font-size: 20px;padding-bottom-20px">All Comments</h1>
+         @foreach ($comment as $comment)
+             
+         
+         <div>
+            <b>{{$comment->name}}</b>
+            <p>{{$comment->comment}}</p>
+            <a href="javascript::void(0);" onclick="reply(this) data-Commentid="{{$comment->id}}">Reply</a>
+         </div>
+
+         @endforeach
+
+
+         <div style="display:none;" class="replyDiv" >
+            <textarea style="height:100px;width:500px;" placeholder="Write somthin here" ></textarea>
+            <br>
+            <a href="" class="btn btn-primary">Reply</a>
+            <a href="javascript::void(0);" class="btn" onclick="reply_close(this)">Close</a>
+         </div>
+
+      </div>
+
+    
+      {{-- Comment and reply system end here --}}
+
+
       <!-- subscribe section -->
      @include('home.subscribe')
       <!-- end subscribe section -->
@@ -58,6 +99,18 @@
          
          </p>
       </div>
+
+      
+      <script type="text/javascript">
+         function reply(caller) {
+          $('.replyDiv').insertAfter($(caller));
+          $('.replyDiv').show();
+         }
+         function reply_close(caller)
+         {
+            $('.replyDiv').hide();
+         }
+    </script>
       <!-- jQery -->
       <script src="home/js/jquery-3.4.1.min.js"></script>
       <!-- popper js -->
