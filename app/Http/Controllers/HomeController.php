@@ -25,6 +25,9 @@ class HomeController extends Controller
 
         return view('home.userpage',compact('product','comment','reply'));
     }
+
+
+
     public function redirect()
     {
         $usertype = Auth::user()->usertype;
@@ -54,6 +57,8 @@ class HomeController extends Controller
         }
     }
 
+
+
    public function product_details($id)
    {
         $product = Product::find($id);
@@ -61,11 +66,11 @@ class HomeController extends Controller
    }
 
 
+
    public function add_cart(Request $request ,$id)
    {
     if(Auth::id())
     {
-
         $user=Auth::user();
         $product=Product::find($id);
         $cart=new Cart;
@@ -99,12 +104,12 @@ class HomeController extends Controller
     }
    }
 
+
+
    public function show_cart()
    {
     if(Auth::id())
     {
-
-    
     $id=Auth::user()->id;
     $cart=Cart::where('user_id','=',$id)->get();
 
@@ -116,6 +121,8 @@ class HomeController extends Controller
    }
 }
 
+
+
 public function remove_cart($id)
 {
     $cart=Cart::find($id);
@@ -124,6 +131,8 @@ public function remove_cart($id)
     
     return redirect()->back()->with('message','Cart Deleted Successfully');
 }
+
+
 
 public function cash_order()
 {
@@ -153,8 +162,8 @@ public function cash_order()
 }
 return redirect()->back()->with('message','We Have Received Your Order. We Will Connect With You Soon');
 
-
 }
+
 
 
 public function stripe($totalprice)
@@ -163,9 +172,9 @@ public function stripe($totalprice)
 }
 
 
+
 public function stripePost(Request $request,$totalprice)
-    {
-        
+    { 
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
     
         Stripe\Charge::create ([
@@ -174,8 +183,7 @@ public function stripePost(Request $request,$totalprice)
                 "source" => $request->stripeToken,
                 "description" => "Thanks for payment." 
         ]);
-
-        $user=Auth::user();
+    $user=Auth::user();
     $userid=$user->id;
     $data=Cart::where('user_id','=',$userid)->get();
     foreach($data as $data)
@@ -205,6 +213,8 @@ public function stripePost(Request $request,$totalprice)
         return back();
     }
 
+
+
    public function show_order()
    {
     if(Auth::id()){
@@ -219,6 +229,8 @@ public function stripePost(Request $request,$totalprice)
     }
    } 
 
+
+
    public function cansel_order($id)
    {
     $order=Order::find($id);
@@ -226,6 +238,8 @@ public function stripePost(Request $request,$totalprice)
     $order->save();
     return redirect()->back();
    }
+
+
 
    public function add_comment(Request $request)
    {
@@ -243,6 +257,8 @@ public function stripePost(Request $request,$totalprice)
     }
    }
 
+
+
    public function add_reply(Request $request)
    {
 if(Auth::id())
@@ -259,4 +275,23 @@ else{
     return redirect('login');
 }
    }
+
+
+
+public function product_search(Request $request)
+{
+    $comment=Comment::orderby('id','desc')->get();
+    $reply=Reply::all();
+    $search_text=$request->search;
+    $product=Product::where('title','LIKE',"%$search_text%")->orWhere('category','LIKE',"$search_text")->paginate(10);
+    return view('home.userpage',compact('product','comment','reply'));
+}
+
+
+
+
+
+
+
+
 }
