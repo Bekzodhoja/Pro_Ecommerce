@@ -93,7 +93,7 @@ class HomeController extends Controller
     
             }
             $cart->save();
-            return redirect()->back();
+            return redirect()->back()->with('message','Successfully');
         }
         else{
 
@@ -119,7 +119,7 @@ class HomeController extends Controller
             $cart->product_id=$product->id;
             $cart->quantity=$request->quantity;
             $cart->save();
-            return redirect()->back();
+            return redirect()->back()->with('message','Successfully');
         }
 
 
@@ -306,30 +306,50 @@ else{
 
 public function product_search(Request $request)
 {
+if(Auth::id())
+{
     $comment=Comment::orderby('id','desc')->get();
     $reply=Reply::all();
     $search_text=$request->search;
     $product=Product::where('title','LIKE',"%$search_text%")->orWhere('category','LIKE',"$search_text")->paginate(10);
     return view('home.userpage',compact('product','comment','reply'));
 }
+else
+{
+    return redirect()->back();
+}
+}
 
 
 
 public function products()
+{
+if(Auth::id())
 {
     $product=Product::paginate(10);
     $comment=Comment::orderby('id','desc')->get();
     $reply=Reply::all();
     return view('home.all_product',compact('product','comment','reply'));
 }
+else{
+    return redirect()->back();
+}
+}
 
 public function search_product(Request $request)
+{
+if(Auth::id())
 {
     $comment=Comment::orderby('id','desc')->get();
     $reply=Reply::all();
     $search_text=$request->search;
     $product=Product::where('title','LIKE',"%$search_text%")->orWhere('category','LIKE',"$search_text")->paginate(10);
     return view('home.all_product',compact('product','comment','reply'));
+}
+else{
+    return redirect()->back();
+ 
+}
 }
 
 

@@ -16,6 +16,13 @@
             </form>
           </div>
        </div>
+       @if (session()->has('message'))
+       <div class="alert alert-success">
+          <button class="btn-close" type="button" data-dismiss="alert" >X</button>
+          {{ session()->get('message') }}
+       </div>
+           
+       @endif
        <div class="row">
          @foreach ($product as $products)
              

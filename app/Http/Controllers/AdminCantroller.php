@@ -8,14 +8,22 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\MyFirstNotification;
 
 class AdminCantroller extends Controller
 {
     public function view_category()
     {
-        $data = Category::all();
-        return view('admin.category',compact('data'));
+        if(Auth::id())
+        {
+            $data = Category::all();
+            return view('admin.category',compact('data'));
+        }
+        else{
+            return redirect('login');
+        }
+
     }
 
   
@@ -30,18 +38,30 @@ class AdminCantroller extends Controller
 
     public function delete_category($id)
     {
+       if(Auth::id())
+       {
         $data = Category::find($id);
         $data->delete();
         return redirect()->back()->with('message','Categoriy Deleted Successfully');
         
+       }
+       else{
+        return redirect('login');
+       }
     }
 
 
     public function view_product()
     {
-        $category = Category::all();
+   if(Auth::id())
+   {
+    $category = Category::all();
 
-        return view('admin.product',compact('category'));
+    return view('admin.product',compact('category'));
+   }
+   else{
+    return redirect('login');
+   }
     }
 
     public function add_product(Request $request)
@@ -86,26 +106,33 @@ class AdminCantroller extends Controller
 
     public function update_product_confirm(Request $request,$id)
     {
-        $product = Product::find($id);
+        if(Auth::id())
+        {
+            $product = Product::find($id);
 
-        $product->title = $request->title;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->discount_price = $request->dis_price;
-        $product->category = $request->category;
-        $product->quantity = $request->quantity;
-
-        $image = $request->image;
-        if ($image) {
-
-
-            $imagename = time() . '.' . $image->getClientOriginalExtension();
-            $request->image->move('product', $imagename);
-            $product->image = $imagename;
+            $product->title = $request->title;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->discount_price = $request->dis_price;
+            $product->category = $request->category;
+            $product->quantity = $request->quantity;
+    
+            $image = $request->image;
+            if ($image) {
+    
+    
+                $imagename = time() . '.' . $image->getClientOriginalExtension();
+                $request->image->move('product', $imagename);
+                $product->image = $imagename;
+            }
+            $product->save();
+            return redirect()->back()->with('message', 'Product Added Seccessfully');
+    
         }
-        $product->save();
-        return redirect()->back()->with('message', 'Product Added Seccessfully');
-
+        else{
+            return redirect('login');
+        }
+        
     }
 
     public function order()
@@ -117,20 +144,34 @@ class AdminCantroller extends Controller
 
     public function  delivered($id)
     {
+      if(Auth::id())
+      {
         $order=Order::find($id);
         $order->delivery_status='Delivered';
         $order->payment_status='Paid';
         $order->save();
         return redirect()->back();
+      }
+      else{
+        return redirect('login');
+      }
 
     }
 
 
     public function print_pdf($id)
     {
+      if(Auth::id())
+      {
         $order=Order::find($id);
-        $pdf=PDF::loadView('admin.pdf',compact('order'));
-        return $pdf->download('order_details.pdf');
+        $order->delivery_status='Delivered';
+        $order->payment_status='Paid';
+        $order->save();
+        return redirect()->back();
+      }
+      else{
+        return redirect('login');
+      }
     }
 
 
@@ -143,6 +184,8 @@ class AdminCantroller extends Controller
 
     public function send_user_email(Request $request,$id)
     {
+      if(Auth::id())
+      {
         $order=Order::find($id);
         $details=[
              'greeting'=>$request->greeting,
@@ -155,6 +198,10 @@ class AdminCantroller extends Controller
 
         Notification::send($order,new MyFirstNotification($details));
         return redirect()->back();
+      }
+      else{
+        return redirect('login');
+      }
     }
 
     public function searchdata(Request $request)
